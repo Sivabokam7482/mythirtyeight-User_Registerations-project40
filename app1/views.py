@@ -68,3 +68,46 @@ def userlogin(request):
 def userlogout(request):
     logout(request)
     return HttpResponseRedirect(reverse('Home'))
+
+@login_required
+def profiledisplay(request):
+    un=request.session.get('username')
+    UO=User.objects.get(username=un)
+    PO=Profile.objects.get(profile_user=UO)
+    d={'uo':UO,'po':PO}
+    return render(request,'profile_display.html',d)
+
+@login_required
+def change_password(request):
+    if request.method=='POST':
+        pw=request.POST['password']
+
+        un=request.session.get('username')
+        UO=User.objects.get(username=un)
+
+        UO.set_password(pw)
+        UO.save()
+        return HttpResponse('password is changed successfully')
+
+    return render(request,'changepassword.html')
+
+def reset_password(request):
+   
+   if request.method=='POST':
+        un=request.POST['un']
+        pw=request.POST['pw']
+
+        LUO=User.objects.filter(username=un)
+
+        if LUO:
+            UO=LUO[0]
+            UO.set_password(pw)
+            UO.save()
+            return HttpResponse('password reset is Done')
+        else:
+            return HttpResponse('user is not present in my DataBase')
+        
+
+     
+        
+   return render(request,'resetpassword.html')

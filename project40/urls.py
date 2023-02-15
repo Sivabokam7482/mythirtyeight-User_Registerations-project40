@@ -24,4 +24,7 @@ urlpatterns = [
     path('register/',register,name='Register'),
     path('login/',userlogin,name='userlogin'),
     path('logout/',userlogout,name='userlogout'),
+    path('profile/',profiledisplay,name='profile_display'),
+    path('change_password/',change_password,name='changepassword'),
+    path('resetpassword/',reset_password,name='resetpassword'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
